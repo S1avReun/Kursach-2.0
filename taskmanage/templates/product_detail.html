@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}Подробнее{% endblock %}
+
+{% block content %}
+
+<div class="w-100">
+    <div class="page-titles w-100">
+        <div class="carousel-item active w-100" style="height: 300px;">
+            <img src="{% static 'img/contact.png' %}" class="w-100" alt="Snow" style="height: 300px;">
+            <div class="carousel-caption d-none d-md-block">
+                <h1>{{ product.name }}</h1>
+                <div class="breadcrumbs">
+                    <a class="text-light" href="{% url 'home' %}">Главная</a> <span> / </span> Подробней
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="product-detail">
+            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
+            <h2>Описание:</h2>
+            <p>{{ product.description }}</p>
+            {% if user.is_authenticated %}
+            <form action="{% url 'cart_add' product.id %}" method="post">
+                {{ cart_product_form }}
+                {% csrf_token %}
+                <input type="submit" value="Add to cart">
+
+            </form>
+            {% if "product.add_product" in user.get_user_permissions %}
+            <a href="{% url 'product_edit' product.pk %}">Изменить</a>
+            <a href="{% url 'product_delete' product.pk %}" class="btn btn-danger ml-2">Удалить</a>
+            {% endif %}
+            {% else %}
+            <p><a href="{% url 'login' %}">Авторизуйтесь</a>, чтобы добавить в корзину</p>
+            {% endif %}
+
+    </div>
+</div>
+
+
+<style>
+
+    .photo{
+    padding: 60px 0px;
+    }
+
+    .article-content{
+    display: flex;
+    padding: 60px 0px;
+    color: black;
+    text-align: left;
+    width: 900px;
+    }
+    .carousel-indicators{
+    display: flex;
+    margin: 65px;
+    }
+    .breadcrumbs{
+    font-size: 22px;
+    text-transform: uppercase;
+    font-weight: 300;
+    color: #ccc;
+    }
+
+
+</style>
+
+{% endblock %}

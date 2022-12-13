@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+
+<div class="container p-3">
+  <center>
+  <h2 class=" mb-2 fw-normal">Изменение профиля</h2>
+  </center>
+  {% if user.is_authenticated %}
+  <form action="" method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <center>
+    <button class="btn btn-warning w-50" style="margin-bottom: 50px;" type="sumbit">Сохранить изменения</button>
+    </center>
+  </form>
+</div>
+  {% endif %}
+{% endblock %}

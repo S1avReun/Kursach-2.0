@@ -3,17 +3,81 @@
 {% block title %}Продукты{% endblock %}
 
 {% block content %}
-<div id="main" class="product-list">
-<h1>{% if product %}{{ product.name }}Products{% endif %}</h1>
-{% for product in products %}
-    <div class="item">
-        <a href="{{ product.get_absolute_url }}">
-            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
-        </a>
-        <a href="{{ product.get_absolute_url }}">{{ product.name }}</a><br>
-        {{ product.price }}Руб
-    </div>
-{% endfor %}
-</div>
-{% endblock %}
 
+<div class="w-100">
+    <div class="page-titles w-100">
+        <div class="carousel-item active w-100" style="height: 300px;">
+            <img src="{% static 'img/contact.png' %}" class="w-100" alt="Snow" style="height: 300px;">
+            <div class="carousel-caption d-none d-md-block">
+                <h1>Продукты</h1>
+                <div class="breadcrumbs">
+                    <a class="text-light" href="{% url 'home' %}">Главная</a> <span> / </span> Доставка бетона
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h1>{% if product %}{{ product.name }}Products{% endif %}</h1>
+<div class="row align-self-center justify-content-lg-center p-5" style="margin-bottom: 50px;">
+    {% for product in products %}
+    <div class="card text-center row-cols-1 row-cols-md-3 g-4 mb-4" style="width: 18rem; margin-right: 30px;">
+        <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
+        <div class="card-body">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <a class="btn btn-outline-warning text-dark btn-lg" href="{% url 'product_detail' product.pk %}">Подробней</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+
+<style>
+    .card-body {
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1.25rem;
+}
+
+
+.card {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 0.25rem;
+}
+
+    .photo{
+    padding: 60px 0px;
+    }
+
+    .article-content{
+    display: flex;
+    padding: 60px 0px;
+    color: black;
+    text-align: left;
+    width: 900px;
+    }
+    .carousel-indicators{
+    display: flex;
+    margin: 65px;
+    }
+    .breadcrumbs{
+    font-size: 22px;
+    text-transform: uppercase;
+    font-weight: 300;
+    color: #ccc;
+    }
+
+
+</style>
+
+{% endblock %}

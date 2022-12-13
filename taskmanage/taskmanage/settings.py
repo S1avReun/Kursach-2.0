@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'phonenumber_field',
     'product',
+    'cart',
 ]
 
 MIDDLEWARE = [
@@ -141,3 +142,5 @@ TIME_ZONE = 'Asia/Yekaterinburg'
 AUTH_USER_MODEL = 'users.CustomUser'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+CART_SESSION_ID = 'cart'

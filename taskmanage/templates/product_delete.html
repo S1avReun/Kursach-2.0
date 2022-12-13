@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}Корзина{% endblock %}
+
+{% block content %}
+  <div class="container">
+    {% if "product.add_product" in user.get_user_permissions %}
+    <h2 class="mt-4"> Удаление продукта</h2>
+    Вы действительно хотите удалить этот продукт
+    <form method="POST" >
+        {% csrf_token %}
+        <button class="btn btn-danger" type="submit">Удалить</button>
+        <a class="btn btn-secondary text-light" href="{% url 'product_detail' product.pk %}">Отмена</a>
+    </form>
+
+    </div>
+    {% else %}
+    <center>
+  <h2>У вас недостаточно прав для входа на данную страницу</h2>
+      </center>
+  {% endif %}
+  </div>
+
+{% endblock %}
