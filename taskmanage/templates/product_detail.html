@@ -20,52 +20,62 @@
 </div>
 
 
-<div class="container">
-    <div class="product-detail">
-            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
-            <h2>Описание:</h2>
-            <p>{{ product.description }}</p>
-            {% if user.is_authenticated %}
-            <form action="{% url 'cart_add' product.id %}" method="post">
-                {{ cart_product_form }}
-                {% csrf_token %}
-                <input type="submit" value="Add to cart">
-
-            </form>
-            {% if "product.add_product" in user.get_user_permissions %}
-            <a href="{% url 'product_edit' product.pk %}">Изменить</a>
-            <a href="{% url 'product_delete' product.pk %}" class="btn btn-danger ml-2">Удалить</a>
-            {% endif %}
-            {% else %}
-            <p><a href="{% url 'login' %}">Авторизуйтесь</a>, чтобы добавить в корзину</p>
-            {% endif %}
-
-    </div>
+<div class="container " style="margin-top: 50px;}">
+    <table class="table table-striped" style="text-align: center">
+        <thead>
+        <tr>
+            <td class="font-weight-bold">Марка</td>
+            <td class="font-weight-bold">Цена руб./м3</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class="font-weight-bold">{{ product.name }}</td>
+            <td>{{ product.price }}</td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
+<div class="container">
+        <div class="content-image mt-4">
+            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
+        </div>
+    <div class="content-description mb-4" >
+        <center>
+            <h2 class="mt-4" >Описание:</h2>
+        </center>
+        <p style="text-align: justify" >{{ product.description }}</p>
+    </div>
+    {% if user.is_authenticated %}
+    <form action="{% url 'cart_add' product.id %}" method="post">
+        {{ cart_product_form }}
+        {% csrf_token %}
+        <input class="btn btn-warning w-25 ml-2 mt-4 mb-4" style="font-size: 20px;"  type="submit" value="Добавить в корзину">
+    </form>
+    {% if "product.add_product" in user.get_user_permissions %}
+    <a class="btn btn-warning w-25 mt-4 ml-2 mb-4" href="{% url 'product_edit' product.pk %}" style="font-size: 20px;" >Изменить</a>
+    <a href="{% url 'product_delete' product.pk %}" class="btn btn-danger ml-2 mt-4 w-25 mb-4" style="font-size: 20px;">Удалить</a>
+    {% endif %}
+    {% else %}
+    <h3><a href="{% url 'login' %}">Авторизуйтесь</a>, чтобы добавить в корзину</h3>
+    {% endif %}
+
+</div>
 
 <style>
 
-    .photo{
-    padding: 60px 0px;
+    .content-image {
+        text-align: center;
+        margin-top: 10px;
+
     }
 
-    .article-content{
-    display: flex;
-    padding: 60px 0px;
-    color: black;
-    text-align: left;
-    width: 900px;
-    }
-    .carousel-indicators{
-    display: flex;
-    margin: 65px;
-    }
-    .breadcrumbs{
-    font-size: 22px;
-    text-transform: uppercase;
-    font-weight: 300;
-    color: #ccc;
+    .breadcrumbs {
+        font-size: 22px;
+        text-transform: uppercase;
+        font-weight: 300;
+        color: #ccc;
     }
 
 

@@ -3,49 +3,239 @@
 {% block title %}Корзина{% endblock %}
 
 {% block content %}
-<h1>Your shopping cart</h1>
-    <table class="cart">
-        <thead>
-        <tr>
-            <th>Image</th>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Remove</th>
-            <th>Unit price</th>
-            <th>Price</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for item in cart %}
-            {% with product=item.product %}
-                <tr>
-                    <td>
-                        <a href="{{ product.get_absolute_url }}">
-                            <img src="
-                                {% if product.image %}
-                                    {{ product.image.url }}
-                                {% else %}
-                                    {% static 'img/no_image.png' %}
-                                {% endif %}">
-                        </a>
-                    </td>
-                    <td>{{ product.name }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td><a href="{% url 'cart_remove' product.id%}">Remove</a></td>
-                    <td class="num">${{ item.price }}</td>
-                    <td class="num">${{ item.total_price }}</td>
-                </tr>
-            {% endwith %}
-        {% endfor %}
-        <tr class="total">
-            <td>Total</td>
-            <td colspan="4"></td>
-            <td class="num">${{ cart.get_total_price }}</td>
-        </tr>
-        </tbody>
-    </table>
-    <p class="text-right">
-        <a href="{% url 'product_list' %}" class="button light">Continue shopping</a>
-        <a href="#" class="button">Checkout</a>
-    </p>
+<div class="w-100">
+    <div class="page-titles w-100">
+        <div class="carousel-item active w-100" style="height: 300px;">
+            <img src="{% static 'img/contact.png' %}" class="w-100" alt="Snow" style="height: 300px;">
+            <div class="carousel-caption d-none d-md-block">
+                <h1>Корзина</h1>
+                <div class="breadcrumbs">
+                    <a class="text-light" href="{% url 'home' %}">Главная</a> <span> / </span> Корзина
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="cart_section">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1">
+                <center>
+                    <h1 class="mt-4">Корзина</h1>
+                    {% if cart|length > 0 %}
+                </center>
+                {% for item in cart %}
+                {% with product=item.product %}
+                <div class="cart_container">
+                    <div class="cart_items">
+                        <ul class="cart_list">
+                            <li class="cart_item clearfix">
+                                <div class="cart_item_image"><img
+                                        src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
+                                </div>
+                                <div class="cart_item_info d-flex flex-md-row flex-column justify-content-between">
+                                    <div class="cart_item_name cart_info_col">
+                                        <div class="cart_item_title">Название продукта</div>
+                                        <div class="cart_item_text">{{ product.name }}</div>
+                                    </div>
+                                    <div class="cart_item_color cart_info_col">
+                                        <div class="cart_item_title">Цена за штуку</div>
+                                        <div class="cart_item_text">{{ item.total_price }} Руб</div>
+                                    </div>
+                                    <div class="cart_item_quantity cart_info_col">
+                                        <div class="cart_item_title">Количество</div>
+                                        <div class="cart_item_text"> <a href="{% url 'cart_minus_product' product.id %}" class="btn" style="color: black">-</a> {{ item.quantity }} <a href="{% url 'cart_plus_product' product.id %}" class="btn" style="color: black">+</a></div>
+                                    </div>
+                                    <div class="cart_item_total cart_info_col">
+                                        <div class="cart_item_title">Общая цена</div>
+                                        <div class="cart_item_text">{{ item.total_price }} Руб</div>
+                                    </div>
+                                    <div class="cart_item_delete cart_info_col" >
+                                        <div class="cart_item_title">Удаление</div>
+                                        <div class="cart_item_text">
+                                            <a href="{% url 'cart_remove' product.id %}">
+                                                <svg style="color: red; margin-left: 20px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                     fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    {% endwith %}
+                    {% endfor %}
+                    <div class="order_total">
+                        <div class="order_total_content text-md-right">
+                            <div class="order_total_title">Общая стоимость:</div>
+                            <div class="order_total_amount">{{ cart.get_total_price }} Руб</div>
+                        </div>
+                    </div>
+                    <div class="cart_buttons text-center">
+                        <a href="{% url 'product_list' %}" class="btn btn-outline-dark w-25">Продолжить покупки</a>
+                        <a href="{% url 'order_create' %}" class="btn btn-warning w-25">Заказать</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<p>У вас пустая коризна, добавьте в нее, чтобы продолжить оформление заказа</p>
+{% endif %}
+</p>
+</div>
+</div>
+</div>
+
+
+<style>
+    .breadcrumbs {
+        font-size: 22px;
+        text-transform: uppercase;
+        font-weight: 300;
+        color: #ccc;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        -webkit-font-smoothing: antialiased;
+        -webkit-text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
+        text-shadow: rgba(0, 0, 0, .01) 0 0 1px
+    }
+
+
+    ul {
+        list-style: none;
+        margin-bottom: 0px
+    }
+
+    .button a {
+        display: block;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 48px;
+        color: #FFFFFF;
+        padding-left: 35px;
+        padding-right: 35px
+    }
+
+
+    .cart_section {
+        width: 100%;
+        padding-top: 93px;
+        padding-bottom: 111px
+    }
+
+    .cart_items {
+        margin-top: 8px
+    }
+
+    .cart_list {
+        border: solid 1px #e8e8e8;
+        box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+        background-color: #fff
+    }
+
+    .cart_item {
+        width: 100%;
+        padding: 15px;
+        padding-right: 46px
+    }
+
+    .cart_item_image {
+        width: 133px;
+        height: 133px;
+        float: left
+    }
+
+    .cart_item_image img {
+        max-width: 100%;
+        margin-top: 20px;
+    }
+
+    .cart_item_info {
+        width: calc(100% - 133px);
+        float: left;
+        padding-top: 18px
+    }
+
+    .cart_item_name {
+        margin-left: 7.53%
+    }
+
+    .cart_item_title {
+        font-size: 14px;
+        font-weight: 400;
+        color: rgba(0, 0, 0, 0.5)
+    }
+
+    .cart_item_text {
+        font-size: 18px;
+        margin-top: 35px
+    }
+
+    .cart_item_text span {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        margin-right: 11px;
+        -webkit-transform: translateY(4px);
+        -moz-transform: translateY(4px);
+        -ms-transform: translateY(4px);
+        -o-transform: translateY(4px);
+        transform: translateY(4px)
+    }
+
+
+    .cart_item_total {
+        text-align: right
+    }
+
+    .order_total {
+        width: 100%;
+        height: 60px;
+        margin-top: 30px;
+        border: solid 1px #e8e8e8;
+        box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+        padding-right: 46px;
+        padding-left: 15px;
+        background-color: #fff
+    }
+
+    .order_total_title {
+        display: inline-block;
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.5);
+        line-height: 60px
+    }
+
+    .order_total_amount {
+        display: inline-block;
+        font-size: 18px;
+        font-weight: 500;
+        margin-left: 26px;
+        line-height: 60px
+    }
+
+    .cart_buttons {
+        margin-top: 60px;
+        text-align: right
+    }
+
+</style>
+
+
 {% endblock %}
+
+
+
+
+

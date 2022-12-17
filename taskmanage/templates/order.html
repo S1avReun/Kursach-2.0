@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Оформление заказа{% endblock %}
+{% load static %}
+{% block content %}
+
+<div class="w-100">
+    <div class="page-titles w-100">
+        <div class="carousel-item active w-100" style="height: 300px;">
+            <img src="{% static 'img/contact.png' %}" class="w-100" alt="Snow" style="height: 300px;">
+            <div class="carousel-caption d-none d-md-block">
+                <h1>Оформление заказа</h1>
+                <div class="breadcrumbs">
+                    <a class="text-light" href="{% url 'home' %}">Главная</a> <span> / </span> Оформление заказа
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container mt-5">
+{% if user.is_authenticated %}
+    <center>
+    <h1>Оформление заказа</h1>
+    </center>
+    <div class="order-info mt-3">
+        <h3>Ваш заказ</h3>
+        <ul>
+            {% for item in cart %}
+                <li style="list-style-type: none;">
+                    {{ item.quantity }} x {{ item.product.name }}
+                    <span> - {{ item.total_price }} Руб</span>
+                </li>
+            {% endfor %}
+        </ul>
+        <p>Итого: {{ cart.get_total_price }} Руб</p>
+    </div>
+    <form action="{% url 'order_create' %}" method="post" class="order-form">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <br>
+        <p style="text-align: center;"><input class="btn btn-warning w-50" type="submit" value="Оформить заказать"></p>
+
+    </form>
+
+</div>
+
+{% else %}
+<center><h3><a href="{% url 'login' %}">Авторизуйтесь</a>, чтобы добавить в корзину</h3></center>
+{% endif %}
+
+<style>
+    .breadcrumbs{
+    font-size: 22px;
+    text-transform: uppercase;
+    font-weight: 300;
+    color: #ccc;
+    }
+</style>
+
+{% endblock %}
+

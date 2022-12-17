@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}Ваши заказы{% endblock %}
+{% block content %}
+
+<div class="w-100">
+    <div class="page-titles w-100">
+        <div class="carousel-item active w-100" style="height: 300px;">
+            <img src="{% static 'img/contact.png' %}" class="w-100" alt="Snow" style="height: 300px;">
+            <div class="carousel-caption d-none d-md-block">
+                <h1>Ваши заказы</h1>
+                <div class="breadcrumbs">
+                    <a class="text-light" href="{% url 'home' %}">Главная</a> <span> / </span> Ваши заказы
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if orders or allorder %}
+{% if "product.add_product" in user.get_user_permissions %}
+{% for order in allorder %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-center row">
+        <div class="col-md-10">
+            <div class="rounded">
+                <div class="table-responsive table-borderless">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th class="text-center">
+                            </th>
+                            <th>Номер заказа</th>
+                            <th>Статус</th>
+                            <th>Адрес</th>
+                            <th>К оплате</th>
+                            <th>Заказчик</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody class="table-body">
+                        <tr class="cell-1">
+                            <td class="text-center">
+                            </td>
+                            <td>№ {{ order.0.0 }}</td>
+                            <td>{{ order.0.4 }} {% if "product.add_product" in user.get_user_permissions %} <a href="{% url 'status_update' order.0.0 %}">Изменить статус заказа</a>{% endif %}</td>
+                            <td>{{ order.0.2 }}</td>
+                            <td>{{ order.0.3 }} Руб</td>
+                            <td>{{ order.0.1 }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+{% else %}
+{% for order in  orders %}
+
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-center row">
+        <div class="col-md-10">
+            <div class="rounded">
+                <div class="table-responsive table-borderless">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th class="text-center">
+                            </th>
+                            <th>Номер заказа</th>
+                            <th>Статус</th>
+                            <th>Адрес</th>
+                            <th>К оплате</th>
+                            <th>Заказчик</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody class="table-body">
+                        <tr class="cell-1">
+                            <td class="text-center">
+                            </td>
+                            <td>№ {{ order.0.0 }}</td>
+                            <td>{{ order.0.4 }} {% if "product.add_product" in user.get_user_permissions %} <a href="{% url 'status_update' order.0.0 %}">Изменить статус заказа</a>{% endif %}</td>
+                            <td>{{ order.0.2 }}</td>
+                            <td>{{ order.0.3 }} Руб</td>
+                            <td>{{ order.0.1 }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+{% endif %}
+
+{% else %}
+<h3>Заказов нет</h3>
+{% endif %}
+
+<style>
+    .cell-1 {
+        border-collapse: separate;
+        border-spacing: 0 4em;
+        background: #fff;
+        border-bottom: 5px solid transparent;
+        background-clip: padding-box;
+    }
+
+    thead {
+        background: #dddcdc;
+    }
+
+
+    .toggle-btn > .inner-circle {
+        width: 15px;
+        height: 15px;
+        background: #fff;
+        border-radius: 50%;
+        -webkit-transition: all 0.3s 0.1s ease-in-out;
+        -moz-transition: all 0.3s 0.1s ease-in-out;
+        -o-transition: all 0.3s 0.1s ease-in-out;
+        transition: all 0.3s 0.1s ease-in-out;
+    }
+
+
+    .toggle-btn.active > .inner-circle {
+        margin-left: 19px;
+    }
+
+    .breadcrumbs{
+    font-size: 22px;
+    text-transform: uppercase;
+    font-weight: 300;
+    color: #ccc;
+    }
+</style>
+
+
+{% endblock %}
